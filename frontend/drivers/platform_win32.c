@@ -51,6 +51,8 @@
 #include "../../msg_hash.h"
 #include "platform_win32.h"
 
+#include "../../nvdaController.h"
+
 #ifndef SM_SERVERR2
 #define SM_SERVERR2 89
 #endif
@@ -812,6 +814,8 @@ static bool create_win32_process(char* cmd)
 
 ISpVoice* pVoice = NULL;
 bool USE_POWERSHELL = false;
+bool USE_NVDA = true;
+bool USE_NVDA_BRAILLE = false;
 
 static bool is_narrator_running_windows(void)
 {
@@ -825,6 +829,20 @@ static bool is_narrator_running_windows(void)
       if (GetExitCodeProcess(&g_pi, &status) && status == STILL_ACTIVE)
          return true;
       return false;
+   }
+   else if
+   {
+      long res=nvdaController_testIfRunning();
+      if(res!=0) 
+      {
+         RARCH_LOG("Error communicating with NVDA\n");
+	 return false;
+      }
+      return true;
+      /*
+      nvdaController_speakText(L"This is a test speech message");
+      nvdaController_brailleMessage(L"This is a test braille message");
+      */
    }
    else
    {
@@ -880,6 +898,25 @@ static bool accessibility_speak_windows(int speed,
          return true;
       }
       pi_set = true;
+      return true;
+   }
+   else if (USE_NVDA)
+   {
+      long res=nvdaController_testIfRunning();
+      if(res!=0) 
+      {
+         RARCH_LOG("Error communicating with NVDA\n");
+         return false;
+      }
+      else
+      {
+         nvdaController_cancelSpeech();
+      }
+
+      if (USE_NVDA_BRAILLE)
+         nvdaController_brailleMessage(speak_text);
+      else
+         nvdaController_speakText(speak_text);
       return true;
    }
    else
