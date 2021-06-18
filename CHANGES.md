@@ -1,11 +1,14 @@
 # Future
 - AUTOCONFIG: Use correct port index in input device configured/disconnected notifications
 - MENU: Prevent font-related segfaults when using extremely small scales/window sizes
+- MENU: Fix 'gfx_display_draw_texture_slice()'
 - MENU/OZONE: Update timedate style options for Last Played sublabel metadata
 - MENU/OZONE: Hide 'Menu Color Theme' setting when 'Use preferred system color theme' is enabled
 - MENU/OZONE: Fix thumbnail switching via 'scan' button functionality
+- MENU/OZONE: Prevent glitches when rendering Ozone's selection cursor
 - MENU/XMB: Fix thumbnail switching via 'scan' button functionality
 - SCANNER: Prevent redundant playlist entries when handling M3U content
+- SCANNER/ANDROID: Fix content scanner being unable to identify certain games from CHD images (raw data sector/subcode)
 
 # 1.8.5
 - 3DS: Keep the bottom screen hidden on sleep/wakeup. When the 3DS wakes back up after being closed, the bottom screen needs to be reinitialized. Adding the condition here will cause the screen to be turned on or off based on the state of ctr_bottom_screen_enabled, as you'd expect

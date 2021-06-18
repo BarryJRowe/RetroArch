@@ -51,7 +51,10 @@
 #include "../../msg_hash.h"
 #include "platform_win32.h"
 
+
+#ifdef HAVE_NVDA
 #include "../../nvdaController.h"
+#endif
 
 #ifndef SM_SERVERR2
 #define SM_SERVERR2 89
@@ -898,6 +901,7 @@ static bool is_narrator_running_windows(void)
          return true;
       return false;
    }
+#ifdef HAVE_NVDA
    else if (USE_NVDA)
    {
       long res=nvdaController_testIfRunning();
@@ -912,6 +916,7 @@ static bool is_narrator_running_windows(void)
       nvdaController_brailleMessage(L"This is a test braille message");
       */
    }
+#endif
    else
    {
       SPVOICESTATUS pStatus;
@@ -969,6 +974,7 @@ static bool accessibility_speak_windows(int speed,
       pi_set = true;
       return true;
    }
+#ifdef HAVE_NVDA
    else if (USE_NVDA)
    {
       long res=nvdaController_testIfRunning();
@@ -988,6 +994,7 @@ static bool accessibility_speak_windows(int speed,
          nvdaController_speakText((wchar_t *) speak_text);
       return true;
    }
+#endif
    else
    {
       /* stop the old voice if running */
